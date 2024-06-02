@@ -4,19 +4,22 @@ import React from 'react'
 type TodolistPropsType = {
     title: string
     tasks: Array<TaskType>
+    removeTask: (taskId: number) => void
 }
  export type TaskType = {
      id: number
      title: string
      isDone: boolean
  }
-export const Todolist = (props: TodolistPropsType) => {
-    const tasksElements: Array<JSX.Element> | JSX.Element = props.tasks.length !== 0
-        ? props.tasks.map((task) => {
+
+export const Todolist = ({title, tasks, removeTask}: TodolistPropsType) => {
+    const tasksElements: Array<JSX.Element> | JSX.Element = tasks.length !== 0
+        ? tasks.map((task: TaskType) => {
     return (
         <li>
         <input type="checkbox" checked={task.isDone}/>
             <span>{task.title}</span>
+            <button onClick={()=>removeTask(task.id)}>*</button>
     </li>
 
 )
@@ -25,7 +28,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
 return (
     <div className="todolist">
-        <h3>{props.title}</h3>
+        <h3>{title}</h3>
         <div>
         <input />
                 <button>+</button>

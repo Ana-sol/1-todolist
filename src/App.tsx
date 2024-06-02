@@ -1,30 +1,41 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
 
 
 function App() {
+
+    //DATA
     const todolistTitle = "What to learn"
-    const tasks: Array<TaskType> = [
+
+
+//state mangment => хук useState, useReducer, redux
+
+//создаем схему деструктуризации массива
+    //если ставим const то значит что в процессе создадим переменные
+
+    const [tasks, setTasks] = useState<Array<TaskType>>([
         {id: 1, title: "HTML", isDone: true},
         {id: 2, title: "CSS", isDone: true},
         {id: 3, title: "JS/TS", isDone: false},
-        {id: 4, title: "REACT", isDone: false }
-    ]
+        {id: 4, title: "REACT", isDone: false}
 
-        const todolistTitle_1 = "What to buy"
-        const tasks_1: Array<TaskType> = [
-        {id: 1, title: "Water", isDone: true},
-        {id: 2, title: "Beer", isDone: true},
-        {id: 3, title: "Meat", isDone: false},
-        {id: 4, title: "Cheeps", isDone: false }
-    ]
+    ])
 
+//иммутабельная(без изменения структуры данных начальной) работа-создаем копию,вносим изменения и передаем на фильтр новый массив
 
+    const removeTask = (taskId: number) => {
+        const nextState = tasks.filter(t => t.id !== taskId) //new array
+        setTasks(nextState)
+    }
+
+//UI
     return (
         <div className="App">
-            <Todolist title={todolistTitle} tasks={tasks} />
-            <Todolist title={todolistTitle_1} tasks={tasks_1} />
+            <Todolist title={todolistTitle}
+                      tasks={tasks}
+                      removeTask={removeTask}
+            />
         </div>
     );
 }
