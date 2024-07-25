@@ -14,6 +14,8 @@ type PropsType = {
 	changeTaskStatus: (taskId: string, taskStatus: boolean, todolistId: string) => void
 	filter: FilterValuesType
 	removeTodolist: (todolistId: string) => void
+	changeTaskTitle:(taskId: string, title: string, todolistId: string) => void
+	changeTodolistTitle :(title: string, todolistId: string) => void
 }
 
 export const Todolist = (props: PropsType) => {
@@ -26,7 +28,9 @@ export const Todolist = (props: PropsType) => {
 		addTask,
 		changeTaskStatus,
 		todolistId,
-		removeTodolist
+		removeTodolist,
+		changeTaskTitle,
+		changeTodolistTitle
 	} = props
 
 
@@ -39,6 +43,10 @@ export const Todolist = (props: PropsType) => {
 		changeFilter(filter, props.todolistId)
 	}
 
+	const changeTodolistTitleCallback = (newTitle: string) => {
+		changeTodolistTitle(newTitle, todolistId)
+	}
+
 	const removeTodolistHandler = () => {
 		removeTodolist(todolistId)
 	}
@@ -46,7 +54,9 @@ export const Todolist = (props: PropsType) => {
 	return (
 		<div>
 			<div className={"todolist-title-container"}>
-				<h3>{title}</h3>
+				<h3>
+				<EditableSpan title={title} changeTitle={changeTodolistTitleCallback}/>
+				</h3>
 				<Button title={'x'} onClick={removeTodolistHandler}/>
 			</div>
 			<AddItemForm addItem={addTaskCallback}/>
@@ -65,9 +75,13 @@ export const Todolist = (props: PropsType) => {
 								changeTaskStatus(task.id, newStatusValue, todolistId)
 							}
 
+							const changeTaskTitleCallback = (newTitle: string) => {
+								changeTaskTitle(task.id, newTitle,todolistId)
+							}
+
 							return <li key={task.id} className={task.isDone ? 'is-done' : ''}>
 								<input type="checkbox" checked={task.isDone} onChange={changeTaskStatusHandler}/>
-								<EditableSpan title={task.title} changeTitle={() => {}}/>
+								<EditableSpan title={task.title} changeTitle={changeTaskTitleCallback} />
 								<Button onClick={removeTaskHandler} title={'x'}/>
 							</li>
 						})}

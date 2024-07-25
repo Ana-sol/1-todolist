@@ -134,6 +134,8 @@ function App() {
 					changeTaskStatus={changeTaskStatus}
 					filter={tl.filter}
 					removeTodolist={removeTodolist}
+					changeTaskTitle={changeTaskTitle}
+					changeTodolistTitle={changeTodolistTitle}
 				/>
 			)
 			})
@@ -141,8 +143,7 @@ function App() {
 	return (
 				<div className="App">
 					<AddItemForm addItem={addTodolist} />
-
-                {todolistsComp}
+					{todolistsComp}
 	</div>
 );
 }

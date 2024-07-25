@@ -18,8 +18,7 @@ type EditableSpanPropsType = {
 
      const onEditMode = () => setEditMode(true)
      const offEditMode = () => setEditMode(false)
-     setEditMode(false)
-     changeTitle(itemTitle)
+          changeTitle(itemTitle)
 
 
      return (
