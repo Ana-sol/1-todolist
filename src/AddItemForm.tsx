@@ -1,19 +1,28 @@
-import {FilterValuesType, TaskType} from "./App";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "./Button";
+import TextField from '@mui/material/TextField';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import IconButton from "@mui/material/IconButton";
 
-type AddItemFormPropsType = {
-    addItem: (newTitle: string) => void
+type PropsType = {
+    addItem: (title: string) => void
 }
 
-export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
+export const AddItemForm = ({addItem}: PropsType) => {
 
-    const [itemTitle, setItemTitle] = useState("")
-
+    const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
-    const changeItemTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setItemTitle(event.currentTarget.value)
+    const addItemHandler = () => {
+        if (title.trim() !== '') {
+            addItem(title.trim())
+            setTitle('')
+        } else {
+            setError('Title is required')
+        }
+    }
+
+    const changeItemHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.currentTarget.value)
     }
 
     const addItemOnKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -22,28 +31,22 @@ export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
             addItemHandler()
         }
     }
-
-    const addItemHandler = () => {
-        if (itemTitle.trim() !== '') {
-            addItem(itemTitle.trim())
-            setItemTitle('')
-        } else {
-            setError('Title is required')
-        }
-    }
-
     return (
         <div>
-            <input
-                className={error ? 'error' : ''}
-                value={itemTitle}
-                onChange={changeItemTitleHandler}
+            <TextField
+                label="Enter a title"
+                variant={'outlined'}
+                value={title}
+                size={'small'}
+                error={!!error}
+                helperText={error}
+                onChange={changeItemHandler}
                 onKeyUp={addItemOnKeyUpHandler}
             />
-            <Button title={'+'} onClick={addItemHandler}/>
-            {error && <div className={'error-message'}>{error}</div>}
+            <IconButton onClick={addItemHandler} color={'primary'}>
+                <AddBoxIcon/>
+            </IconButton>
         </div>
-    );
-};
+    )
+}
 
-export default AddItemForm;
